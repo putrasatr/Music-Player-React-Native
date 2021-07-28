@@ -12,14 +12,14 @@ import { Purple } from "../../../assets/colors"
 import { useThemeContext } from "../../../context/ThemeProvider"
 import { styles } from "./styles"
 
-const App = ({ isDarkTheme, setDarkTheme }) => {
+const Options = ({ isDarkTheme, setDarkTheme }) => {
     return (
         <View style={styles.container}>
             <Text style={{
                 color: isDarkTheme ? "white" : "black"
             }}>Dark Mode</Text>
             <Switch
-                trackColor={{ false: "#767577", true: "#fff" }}
+                trackColor={{ false: "#767577", true: "#f4f3f4" }}
                 thumbColor={isDarkTheme ? Purple : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={setDarkTheme}
@@ -41,7 +41,7 @@ export default function Component() {
             }}>
                 Setting
             </Text>
-            <App isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
+            <Options isDarkTheme={isDarkTheme} setDarkTheme={setDarkTheme} />
         </Layout>
     )
 }
