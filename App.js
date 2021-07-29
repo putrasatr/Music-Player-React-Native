@@ -11,30 +11,30 @@ import { StackScreen } from './src/routers/'
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import AudioProvider from "./src/context/AudioProvider";
-import ThemeProvider from "./src/context/ThemeProvider";
-//  import rootReducer from './src/redux/reducers';
-//  import { createStore, applyMiddleware, compose } from 'redux';
-//  import createSagaMiddleware from 'redux-saga';
-//  import rootSaga from './src/redux/sagas';
+import { AudioProvider, ThemeProvider, LocalesProvider } from "./src/context";
 
-//  const sagaMiddleware = createSagaMiddleware();
-//  const enhancer = compose(applyMiddleware(sagaMiddleware));
-//  const store = createStore(rootReducer, enhancer);
+import rootReducer from './src/services/reducers';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
-//  sagaMiddleware.run(rootSaga);
+const store = createStore(rootReducer, applyMiddleware(thunk))
 
 const App = () => {
   return (
-    <ThemeProvider>
-      <AudioProvider>
-        <SafeAreaProvider>
-          <NavigationContainer>
-            <StackScreen />
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </AudioProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <LocalesProvider>
+        <ThemeProvider>
+          <AudioProvider>
+            <SafeAreaProvider>
+              <NavigationContainer>
+                <StackScreen />
+              </NavigationContainer>
+            </SafeAreaProvider>
+          </AudioProvider>
+        </ThemeProvider>
+      </LocalesProvider>
+    </Provider>
   )
 
 }
