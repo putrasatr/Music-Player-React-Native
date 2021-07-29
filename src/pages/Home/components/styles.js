@@ -33,5 +33,29 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 15,
         fontWeight: "900",
+    },
+    colBottom: {
+        width: "100%",
+        flex:1,
+        padding: 5,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        borderTopEndRadius: 10,
+        borderTopStartRadius: 10,
+
+    },
+    containerBottom: {
+        width: "110%",
+        height: 60,
+        position: "absolute",
+        bottom: 50,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 10,
+        borderTopEndRadius: 10,
+        borderTopStartRadius: 10,
+        elevation: 50
     }
 })
