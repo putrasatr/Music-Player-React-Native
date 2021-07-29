@@ -1,6 +1,7 @@
 import React from "react"
 import { Card } from "react-native-paper"
-import { useThemeContext } from "../../../context/ThemeProvider"
+import { useThemeContext } from "../../../context"
+import { White, BackgroundColor } from "../../../assets/colors"
 import { styles } from "./styles"
 
 export default function Component({ children }) {
@@ -8,7 +9,7 @@ export default function Component({ children }) {
     const isDarkTheme = theme === "dark"
     return (
         <Card style={[styles.root, {
-            backgroundColor: isDarkTheme ? "#1e1b2e" : "#fff",
+            backgroundColor: isDarkTheme ? BackgroundColor : White,
         }]}>
             <Card.Content>
                 {children}
