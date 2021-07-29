@@ -1,8 +1,11 @@
-import React, { useEffect, createContext, useState, useContext } from "react"
-import { Alert } from "react-native"
+import React, {
+    useEffect,
+    createContext,
+    useState,
+    useContext
+} from "react"
+import { Alert, View, Text } from "react-native"
 import * as MediaLibrary from "expo-media-library"
-import { FilterFile } from "../helpers";
-
 
 export const AudioContext = createContext({
     audioFiles: []
@@ -11,7 +14,11 @@ export const AudioContext = createContext({
 export const useAudioContext = () => useContext(AudioContext);
 
 export default function AudioProvider({ children }) {
-    const [audioFiles, setAudioFiles] = useState([])
+    const [permissionError, setErrorMessage] = useState(false)
+    const [playbackObj, setPlayBackObj] = useState(null)
+    const [soundObj, setSoundObj] = useState(null)
+    const [currentAudio, setCurrentAudio] = useState({})
+
     const permissionAllert = () => {
         Alert.alert("Permission Required",
             "This app need to read audio files!", [{
@@ -22,30 +29,8 @@ export default function AudioProvider({ children }) {
                 onPress: () => permissionAllert()
             }])
     }
-
-    const getAudioFiles = async () => {
-        let media = await MediaLibrary.getAssetsAsync({
-            mediaType: "audio"
-        })
-        media = await MediaLibrary.getAssetsAsync({
-            mediaType: "audio",
-            first: media.totalCount,
-
-        })
-        const filterAudio = await FilterFile(media)
-        setAudioFiles(filterAudio)
-    }
     const getPermission = async () => {
-        // {
-        //     "canAskAgain": true,
-        //     "expires": "never",
-        //     "granted": true,
-        //     "status": "granted"
-        // }
         const permission = await MediaLibrary.getPermissionsAsync()
-        if (permission.granted) {
-            getAudioFiles()
-        }
         if (!permission.granted && permission.canAskAgain) {
             const { status, canAskAgain } = await MediaLibrary
                 .requestPermissionsAsync()
@@ -53,20 +38,39 @@ export default function AudioProvider({ children }) {
                 //diplay alert
 
             }
-            if (status === "granted") {
-                getAudioFiles()
-            }
             if (status === "denied" && !canAskAgain) {
                 //diplay some error
+                setErrorMessage(true)
             }
         }
     }
     useEffect(() => {
         getPermission()
-        return () => { clearTimeout() }
+        return async () => { clearTimeout() }
     }, [getPermission])
+    if (permissionError)
+        return (
+            <View style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <Text style={{
+                    fontSize: 25,
+                    textAlign: "center",
+                    color: "red"
+                }}>It looks like you haven't accept the permission.</Text>
+            </View>
+        )
     return (
-        <AudioContext.Provider value={{ audioFiles }}>
+        <AudioContext.Provider value={{
+            playbackObj,
+            currentAudio,
+            soundObj,
+            setCurrentAudio,
+            setPlayBackObj,
+            setSoundObj
+        }}>
             {children}
         </AudioContext.Provider>
     )
