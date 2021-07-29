@@ -16,7 +16,7 @@ const ListDrawer = (props) => {
     return (
         <DrawerContentScrollView {...props} style={{ backgroundColor: isDarkTheme ? "black" : "white" }}>
             <DrawerItemList activeBackgroundColor={Purple} activeTintColor={White} {...props} style={{ marginTop: 10 }} />
-            <DrawerItem label="Logout" onPress={() => signOut(navigation)} />
+            <DrawerItem {...props} labelStyle={{ color: isDarkTheme ? White : "black" }} label="Logout" onPress={() => { }} />
         </DrawerContentScrollView>
 
     );
