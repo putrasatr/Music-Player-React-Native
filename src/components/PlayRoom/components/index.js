@@ -3,9 +3,10 @@ import { Text, View, Image, TouchableWithoutFeedback, TouchableOpacity } from 'r
 import MaterialCommunityIcons from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 import { Layout } from "../../"
-import { White, Purple } from '../../../assets/colors';
+import { White, Purple, BackgroundColor } from '../../../assets/colors';
 import { useThemeContext } from '../../../context';
 import { secondsToHms } from '../../../helpers';
+import { Screen1 } from '../../SplashScreen';
 import { styles } from "./styles"
 
 const Content = ({ duration, title, art, isDarkTheme }) => (
@@ -50,6 +51,7 @@ export default function Component({ navigation, route: { params } }) {
     const { duration, title, uri, artist: art, filename } = audioObj
     const { theme } = useThemeContext()
     const isDarkTheme = theme === "dark"
+    return <Screen1 navigation={navigation} />
     return (
         <Layout>
             <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
