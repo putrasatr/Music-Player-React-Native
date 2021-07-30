@@ -6,7 +6,7 @@ export const loadingDone = isLoading => ({
 
 export const loading = payload => {
     return async dispatch => {
-        dispatch(loadingDone(payload))
+       return dispatch(loadingDone(payload))
     }
 }
 //end load data
