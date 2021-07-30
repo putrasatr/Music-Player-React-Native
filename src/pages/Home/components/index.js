@@ -21,10 +21,12 @@ import { loading } from "../../../services/actions/loading";
 import { styles } from "./styles"
 
 export default function Home({ navigation }) {
+    const { theme } = useThemeContext()
     const [idCurrent, setIdCurrent] = useState(null)
     const [audioObj, setAudioObj] = useState({})
     const [isPlay, setIsPlay] = useState(false)
     const dispatch = useDispatch()
+    const { data, isLoading } = useSelector(({ audio, loading }) => ({ ...audio, ...loading }))
     const {
         soundObj,
         playbackObj,
@@ -33,18 +35,13 @@ export default function Home({ navigation }) {
         setPlayBackObj,
         setSoundObj
     } = useAudioContext()
-    const { theme, setTheme } = useThemeContext()
     const isDarkTheme = theme === "dark"
     const { title, artist } = audioObj
-    const setFontColor = () => {
-        setTheme(isDarkTheme ? "light" : "dark")
-    }
-    const { data, isLoading } = useSelector(({ audio, loading }) => ({ ...audio, ...loading }))
-    // useEffect(() => {
-    //     dispatch(loadData("LOAD"))
-    //     dispatch(loading(true))
-    //     return () => clearTimeout()
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(loadData("LOAD"))
+        dispatch(loading(true))
+        return () => clearTimeout()
+    }, [dispatch])
     const handlePressAudio = async audio => {
         setIdCurrent(audio.id)
         setAudioObj(audio)
@@ -86,8 +83,7 @@ export default function Home({ navigation }) {
     return (
         <Layout>
             <Header
-                isDarkTheme={isDarkTheme}
-                setFontColor={setFontColor} />
+                isDarkTheme={isDarkTheme} />
             {isLoading
                 ? <ActivityIndicator size="large" color={Purple} style={{ width: "100%", height: "85%" }} />
                 : <Content
@@ -103,7 +99,7 @@ export default function Home({ navigation }) {
                             name="music"
                             color={Purple}
                             size={26} />
-                        <TouchableWithoutFeedback onPress={() => navigation.navigate("PlayRoomScreen", { audioObj, handlePressAudio })}>
+                        <TouchableWithoutFeedback onPress={() => navigation.navigate("PlayRoomScreen", { audioObj, handlePressAudio: () => handlePressAudio(audioObj) })}>
                             <View style={{
                                 flexDirection: "column",
                                 width: "80%",
