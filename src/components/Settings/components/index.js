@@ -1,56 +1,28 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
     View,
     ScrollView,
     Text,
     Switch,
+    ActivityIndicator,
 } from "react-native"
 
 
+import { Options } from "./Options"
+import { useLocalesContext, useThemeContext } from "../../../context"
+// import { setTheme } from "../../../services/actions/theme"
 import { Layout } from "../.."
-import { Purple } from "../../../assets/colors"
-import { useThemeContext, useLocalesContext } from "../../../context"
 import { styles } from "./styles"
+
 const localesKey = "components.setting"
-const Options = ({ isDarkTheme, setDarkTheme, setLang, isEnglish }) => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.containerRow}>
-                <Text style={{
-                    color: isDarkTheme ? "white" : "black"
-                }}>
-                    Mode Gelap
-                </Text>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#f4f3f4" }}
-                    thumbColor={isDarkTheme ? Purple : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={setDarkTheme}
-                    value={isDarkTheme}
-                />
-            </View>
-            <View style={styles.containerRow}>
-                <Text style={{
-                    color: isDarkTheme ? "white" : "black"
-                }}>{isEnglish ? "Language" : "Bahasa"}</Text>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#f4f3f4" }}
-                    thumbColor={isEnglish ? Purple : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={setLang}
-                    value={isEnglish}
-                />
-            </View>
-        </View>
-    );
-}
+
 export default function Component() {
-    const { theme, setTheme } = useThemeContext()
     const { language, localesVal, setLang } = useLocalesContext()
+    const { setThemeContext, theme } = useThemeContext()
     const isDarkTheme = theme == "dark"
     const isEnglish = language == "eg"
-    const setDarkTheme = () => {
-        setTheme(isDarkTheme ? "light" : "dark")
+    const handleSetTheme = () => {
+        setThemeContext(isDarkTheme ? "light" : "dark")
     }
     return (
         <Layout>
@@ -63,7 +35,7 @@ export default function Component() {
                 isEnglish={isEnglish}
                 setLang={() => setLang(isEnglish ? "id" : "eg")}
                 isDarkTheme={isDarkTheme}
-                setDarkTheme={setDarkTheme} />
+                handleSetTheme={handleSetTheme} />
 
         </Layout>
     )
