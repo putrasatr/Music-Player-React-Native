@@ -51,6 +51,16 @@ export default function Component({ navigation, route: { params } }) {
     const { duration, title, uri, artist: art, filename } = audioObj
     const { theme } = useThemeContext()
     const isDarkTheme = theme === "dark"
+    return (
+        <View style={{
+            width:"100%",
+            height:"100%",
+            backgroundColor:BackgroundColor
+        }}>
+            <Image 
+    source={require("../../../assets/images/listen.png")}/>
+        </View>
+    )
     return <Screen1 navigation={navigation} />
     return (
         <Layout>

@@ -17,6 +17,20 @@ export default function Explore() {
                     color: isDarkTheme ? White : "black"
                 }}>Search</Text>
             </View>
+            <View style={{
+                width: "100%",
+                height: "80%",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+            }}>
+                <Image
+                    style={{
+                        width: 200,
+                        height:"80%"
+                    }}
+                    source={require("../../../assets/images/listen.png")} />
+            </View>
         </Layout>
     )
 }
