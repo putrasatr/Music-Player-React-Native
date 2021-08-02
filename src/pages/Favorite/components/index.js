@@ -23,8 +23,9 @@ export default function Explore() {
                 <Image
                     source={require("../../../assets/images/favorite.png")}
                     style={{
-                        width: 120,
-                        height: 120,
+                        width: 100,
+                        height: 90,
+                        marginBottom: 10
                     }}
                 />
                 <Text style={{
@@ -33,7 +34,7 @@ export default function Explore() {
                 <Text style={{
                     fontSize: 12,
                     color: "#58596b",
-                    textAlign:"center"
+                    textAlign: "center"
                 }}>Anda dapat menambahakna lagu favorite dan memainkannya disini</Text>
             </View>
         </Layout>

@@ -21,6 +21,7 @@
     "expo-media-library": "^12.1.2",
     "react": "17.0.1",
     "react-native": "0.64.2",
+    "react-native-bootsplash": "^3.2.4",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-linear-gradient": "^2.5.6",
