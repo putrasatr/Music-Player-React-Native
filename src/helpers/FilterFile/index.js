@@ -5,9 +5,10 @@ export function FilterFile(assets) {
             const newFilename = item.filename.replace(/.mp3|.m4a/ig, "")
             item.filename = newFilename
             let arr = item.filename.split("-")
+            item.title = ""
             arr.forEach((i, idx) => {
                 if (idx)
-                    item.title = i.trim()
+                    item.title += i.trim()
                 else item.artist = i.trim()
             })
             return item
