@@ -37,7 +37,7 @@ export default function Home({ navigation }) {
     } = useAudioContext()
     const isDarkTheme = theme === "dark"
     const { title, artist } = audioObj
-    useEffect(() => {
+    useEffect(async () => {
         dispatch(loadData("LOAD"))
         dispatch(loading(true))
         return () => clearTimeout()
