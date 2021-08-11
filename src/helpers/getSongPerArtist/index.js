@@ -2,16 +2,13 @@ export function getSongPerArtist(data) {
     const obj = {}
     const result = {}
     data.forEach((item, i) => {
-        if (obj[item.artist]) {
-            obj[item.artist] = [[...(obj[item.artist]), item], true]
-        } else {
-            obj[item.artist] = [[item], false]
-        }
+        obj[item.artist] = obj[item.artist] ? [...obj[item.artist], item] : [item]
     });
     let i = 0
     for (const key in obj) {
-        if (obj[key][1]) {
-            result[key] = obj[key][0];
+        if (obj[key].length > 1) {
+            result[key] = obj[key];
+            i++
         }
     }
     return new Promise(resolve => {
