@@ -1,8 +1,7 @@
 import React, { useEffect } from "react"
-import { View, Text, ActivityIndicator, TouchableOpacity, Animated } from "react-native"
+import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, useWindowDimensions, FlatList } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import MaterialCommunityIcons from "react-native-vector-icons/dist/MaterialCommunityIcons"
-import { Swipeable, RectButton } from "react-native-gesture-handler"
 
 import { Header, Layout } from "../../../components"
 import { useThemeContext } from "../../../context"
@@ -12,6 +11,7 @@ import { loading } from "../../../services/actions/loading"
 import { loadDataPerSinger } from "../../../services/actions/audio"
 
 export default function Explore({ navigation }) {
+    const { height, width } = useWindowDimensions()
     const { theme } = useThemeContext()
     const dispatch = useDispatch()
     const { data, isLoading, dataPerSinger } = useSelector(({ audio, loading }) => ({ ...audio, ...loading }))
@@ -24,34 +24,35 @@ export default function Explore({ navigation }) {
     //     }, 500)
     //     return () => clearTimeout()
     // }, [dispatch])
-    const renderLeftItem = (progress,dragX) => {
-        const trans = dragX.interpolate({
-            inputRange: [4, 50, 100, 101],
-            outputRange: [-100, 0, 0, 1],
-        });
-        return (
-            <RectButton
-                
-                style={{
-                    width: 100,
-                    backgroundColor: "red",
-                   
-                }}>
-                <Animated.Text
-                    style={{
-                        color: White,
-                       transform: [{ translateX: trans }],
-                    }}>
-                    Left Open
-                </Animated.Text>
-            </RectButton>
-        )
-    }
-    const Item = ({ name }) => (
-        <Swipeable
-            renderLeftActions={renderLeftItem}>
+    const ItemRow = ({ name, songs }) => (
+        <TouchableOpacity
+            onPress={() => navigation.navigate("SongsListScreen", name)}
+            style={{
+                backgroundColor: "red",
+                marginRight: 10,
+                borderRadius: 3
+            }}>
             <View style={{
-                width: "100%",
+                width: width - 100,
+                padding: 10,
+                height: height / 5
+            }}>
+                <Text
+                    style={{
+                        color: isDarkTheme ? White : "black"
+                    }}>{name}</Text>
+            </View>
+        </TouchableOpacity>
+    )
+    const ItemCol = ({ name }) => (
+        <TouchableOpacity
+            style={{
+                flex: 1,
+                width: "40%",
+            }}
+            onPress={() => navigation.navigate("SongsListScreen", name)}>
+            <View style={{
+                height: height / 5.5,
                 paddingVertical: 10,
                 backgroundColor: FillgroundColor
             }}>
@@ -60,18 +61,32 @@ export default function Explore({ navigation }) {
                         color: isDarkTheme ? White : "black"
                     }}>{name}</Text>
             </View>
-        </Swipeable>
+        </TouchableOpacity>
     )
     const Content = ({ songObj }) => {
+        let row = []
         let col = []
         let i = 0
         for (const name in songObj) {
-            col.push(<Item key={i} name={name} />)
+            if (i < 5)
+                row.push(<ItemRow key={i} name={name} songs={songObj[name]} />)
+            else
+                col.push(name)
             i++
         }
         return (
-            <View style={styles.container}>
-                {col}
+            <View>
+                <ScrollView
+                    showsHorizontalScrollIndicator={false}
+                    horizontal>
+                    {row}
+                </ScrollView>
+                <FlatList
+                    data={col}
+                    numColumns={2}
+                    keyExtractor={(item, i) => i}
+                    ListFooterComponent={() => <View style={{ width: "100%", height: 100 }} />}
+                    renderItem={({ item }) => <ItemCol name={item} />} />
             </View>
         )
     }
