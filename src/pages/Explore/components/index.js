@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, useWindowDimensions, FlatList } from "react-native"
+import { View, Text, ActivityIndicator, TouchableOpacity, ScrollView, useWindowDimensions, FlatList, SafeAreaView, VirtualizedList } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import MaterialCommunityIcons from "react-native-vector-icons/dist/MaterialCommunityIcons"
 
@@ -47,14 +47,16 @@ export default function Explore({ navigation }) {
     const ItemCol = ({ name }) => (
         <TouchableOpacity
             style={{
-                flex: 1,
-                width: "40%",
+                // flex: 1,
+                width: "30%",
+                backgroundColor: FillgroundColor,
+                borderRadius: 4,
             }}
             onPress={() => navigation.navigate("SongsListScreen", name)}>
             <View style={{
                 height: height / 5.5,
-                paddingVertical: 10,
-                backgroundColor: FillgroundColor
+                padding: 10,
+                marginHorizontal: 1
             }}>
                 <Text
                     style={{
@@ -75,19 +77,20 @@ export default function Explore({ navigation }) {
             i++
         }
         return (
-            <View>
-                <ScrollView
-                    showsHorizontalScrollIndicator={false}
-                    horizontal>
-                    {row}
-                </ScrollView>
+            <SafeAreaView>
                 <FlatList
                     data={col}
                     numColumns={2}
                     keyExtractor={(item, i) => i}
-                    ListFooterComponent={() => <View style={{ width: "100%", height: 100 }} />}
+                    ItemSeparatorComponent={() => <View style={{ margin: 2 }} />}
+                    ListHeaderComponent={() => <ScrollView
+                        showsHorizontalScrollIndicator={false}
+                        horizontal>
+                        {row}
+                    </ScrollView>}
+                    ListFooterComponent={() => <View style={{ width: "100%", height: 200 }} />}
                     renderItem={({ item }) => <ItemCol name={item} />} />
-            </View>
+            </SafeAreaView>
         )
     }
     return (
