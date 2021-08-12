@@ -1,6 +1,9 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * WooHo App 
+ * 
+ * Music Player React Native App
+ * 
+ * https://github.com/putrasatr/Music-Player-React-Native
  *
  * @format
  * @flow strict-local
@@ -18,16 +21,14 @@ import { BackgroundColor } from "./src/assets/colors";
 
 import rootReducer from './src/services/reducers';
 import { createStore, applyMiddleware } from 'redux';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { loadData } from "./src/services/actions/audio";
 
 const store = createStore(rootReducer, applyMiddleware(thunk))
 
 const App = () => {
   React.useEffect(() => {
     const init = async () => {
-      // …do multiple sync or async tasks
       setTimeout(() => console.log("Loading..."), 3000)
     };
 
