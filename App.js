@@ -15,16 +15,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import RNBootSplash from "react-native-bootsplash";
 import { StatusBar } from "react-native";
+import { Provider } from 'react-redux';
 
 import { AudioProvider, ThemeProvider, LocalesProvider } from "./src/context";
 import { BackgroundColor } from "./src/assets/colors";
-
-import rootReducer from './src/services/reducers';
-import { createStore, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-
-const store = createStore(rootReducer, applyMiddleware(thunk))
+import store from "./store";
 
 const App = () => {
   React.useEffect(() => {
