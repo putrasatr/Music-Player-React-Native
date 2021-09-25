@@ -47,16 +47,19 @@ export default function Explore({ navigation }) {
     const ItemCol = ({ name }) => (
         <TouchableOpacity
             style={{
-                // flex: 1,
-                width: "30%",
-                backgroundColor: FillgroundColor,
-                borderRadius: 4,
+                justifyContent: "center",
+                alignItems: "flex-start",
+                marginVertical: 10,
+                width: "49%",
             }}
             onPress={() => navigation.navigate("SongsListScreen", name)}>
             <View style={{
                 height: height / 5.5,
                 padding: 10,
-                marginHorizontal: 1
+                borderRadius: 8,
+                marginHorizontal: 1,
+                width: "100%",
+                backgroundColor: FillgroundColor
             }}>
                 <Text
                     style={{
@@ -88,6 +91,10 @@ export default function Explore({ navigation }) {
                         horizontal>
                         {row}
                     </ScrollView>}
+                    columnWrapperStyle={{
+                        justifyContent: "space-between",
+                        flex: 1
+                    }}
                     ListFooterComponent={() => <View style={{ width: "100%", height: 200 }} />}
                     renderItem={({ item }) => <ItemCol name={item} />} />
             </SafeAreaView>

@@ -3,6 +3,7 @@ import { Text, View, Image, TouchableWithoutFeedback, TouchableOpacity, FlatList
 import MaterialCommunityIcons from "react-native-vector-icons/dist/MaterialCommunityIcons";
 import { useSelector } from 'react-redux';
 
+import { HStack } from '../../Card';
 import { Layout } from "../../"
 import { White, Purple, BackgroundColor } from '../../../assets/colors';
 import { useThemeContext } from '../../../context';
@@ -10,9 +11,19 @@ import { styles } from "./styles"
 
 const Item = ({ title }) => {
     return (
-        <Text style={{
-            color: White
-        }}>{title}</Text>
+        <HStack>
+            <Image
+                source={require("../../../assets/images/logoWooho.png")}
+                style={{
+                    width: "33%",
+                    maxHeight: 80,
+                    borderRadius: 4,
+                    marginRight: 10
+                }} />
+            <Text style={{
+                color: White
+            }}>{title}</Text>
+        </HStack>
     )
 }
 
@@ -21,29 +32,47 @@ export default function Component({ navigation, route: { params } }) {
     const { dataPerSinger } = useSelector(({ audio }) => audio)
     const data = dataPerSinger[params]
     const isDarkTheme = theme === "dark"
+    const Header = ({ artist }) => (
+        <>
+            <TouchableOpacity style={{
+                marginBottom: 20
+            }}
+                onPress={() => navigation.goBack()}>
+                <HStack>
+                    <MaterialCommunityIcons
+                        size={40}
+                        color="white"
+                        name={"chevron-left"} />
+                    <Text style={{
+                        color: White
+                    }}>{artist}</Text>
+                </HStack>
+            </TouchableOpacity>
+            <Image
+                style={{
+                    width: "100%",
+                    height: 150,
+                    borderRadius: 4
+                }}
+                source={require("../../../assets/images/banner.png")} />
+        </>
+    )
     const Content = ({ artist, songs }) => (
         <View style={{
             width: "100%",
             height: "100%",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "flex-start"
         }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-                <MaterialCommunityIcons
-                    size={30}
-                    color="white"
-                    name={"chevron-left"} />
-            </TouchableOpacity>
-            <Image
-                style={{
-                    width: "100%",
-                    height: 100
-                }}
-                source={require("../../../assets/images/chill.png")} />
             <FlatList
+                style={{
+                    width: "100%"
+                }}
+                showsVerticalScrollIndicator={false}
                 data={songs}
                 keyExtractor={(item, i) => i}
+                ListHeaderComponent={() => <Header artist={artist} />}
                 renderItem={({ item: { title } }) => <Item title={title} />} />
         </View>
     )
