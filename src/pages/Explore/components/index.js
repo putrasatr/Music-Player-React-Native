@@ -17,13 +17,13 @@ export default function Explore({ navigation }) {
     const { data, isLoading, dataPerSinger } = useSelector(({ audio, loading }) => ({ ...audio, ...loading }))
     const isDarkTheme = theme === "dark"
 
-    // useEffect(() => {
-    //     dispatch(loading(true))
-    //     setTimeout(() => {
-    //         dispatch(loadDataPerSinger(data))
-    //     }, 500)
-    //     return () => clearTimeout()
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(loading(true))
+        setTimeout(() => {
+            dispatch(loadDataPerSinger(data))
+        }, 500)
+        return () => clearTimeout()
+    }, [dispatch])
     const ItemRow = ({ name, songs }) => (
         <TouchableOpacity
             onPress={() => navigation.navigate("SongsListScreen", name)}
